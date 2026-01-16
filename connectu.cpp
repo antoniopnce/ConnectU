@@ -28,7 +28,7 @@ using namespace std;
 struct Post {
     int postId;
     int userId;
-    string content;
+    string content; //task0done
     int likes;
     long timestamp;
     Post* next; 
