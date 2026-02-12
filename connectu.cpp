@@ -25,7 +25,7 @@ using namespace std;
 // MODELS & DATA STRUCTURES
 // ==========================================
 
-struct Post { //test 2
+struct Post { 
     int postId;
     int userId;
     string content; //task0done
@@ -48,20 +48,33 @@ public:
     Post* head;
     Timeline() : head(nullptr) {}
 
-    // Task: Add a new post to the FRONT of the list (O(1))
-    void addPost(int pid, int uid, string content, int likes, long time) {
-        // TODO: LAB 1
-
-
+    // Task: Add a new post to the FRONT of the list (O(1)) //need to use new, delete is counterpart
+    void addPost(int pid, int uid, string content, int likes, long time) { 
+        Post* newPost = new Post(pid, uid, content, likes, time); // new Post object created that holds the 5 different values associated
+        //uses new operator to make a Post object in the heap
+        newPost->next = head; // next pointer points to what the head/first node is
+        head = newPost; //the head/first node becomes newPost so addPost adds the newPost to the front of the linked list
+        //head -> nullptr to head -> newPost -> nullptr to head -> newPost2 -> newPost -> nullptr
+        //every newPost next pointer points to the head and shifts the list down with each addition
     }
 
-    void printTimeline() {
-        Post* current = head;
-        if (!current) { cout << "  (No posts yet)" << endl; return; }
-        
-        // Task: Traverse the linked list and print content
+    // Task: Traverse the linked list and print content
         // TODO: LAB 1
-
+    void printTimeline() {
+        Post* current = head; //set's the current pointer to the head of the list
+        if (!current) { 
+            cout << "  (No posts yet)" << endl; return; } //if no current node (is nullptr) then it's empty and outputs that there's no posts
+        
+        while (current != nullptr) { //while the current node is not nullptr, current traveses the list all the way to nullptr
+            cout << "PostID: " << current->postId // current pointer checks what the postID value is and outputs PostID: then the value
+                 << "UserID: " << current->userId
+                 << "Content: " << current->content
+                 << "Likes: " << current->likes
+                 << "Timestamp: " << current->timestamp
+                 << endl;
+        
+            current = current->next; //moves to the next post after
+        }    
     }
 };
 
