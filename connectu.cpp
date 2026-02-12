@@ -66,11 +66,12 @@ public:
             cout << "  (No posts yet)" << endl; return; } //if no current node (is nullptr) then it's empty and outputs that there's no posts
         
         while (current != nullptr) { //while the current node is not nullptr, current traveses the list all the way to nullptr
-            cout << "PostID: " << current->postId // current pointer checks what the postID value is and outputs PostID: then the value
-                 << "UserID: " << current->userId
-                 << "Content: " << current->content
-                 << "Likes: " << current->likes
-                 << "Timestamp: " << current->timestamp
+            cout << "PostID: " << current->postId << "\n" // current pointer checks what the postID value is and outputs PostID: then the value
+                                                          // added newlines and tabs to make it more aesthetically pleasing
+                 << "UserID: " << current->userId //checks the userId value and outputs userId: then the value
+                 << "\tContent: " << current->content //checks the content value and outputs Content: then the value
+                 << "\tLikes: " << current->likes << "\n" //checks the likes value and outputs Likes: then the value
+                 << "Timestamp: " << current->timestamp //checks the timestamp value and outputs Timestamp: then the value
                  << endl;
         
             current = current->next; //moves to the next post after
@@ -474,7 +475,7 @@ void showMainMenu() {
         else if (choice == 3) {
             // SAFETY: Commented out to prevent data loss on initial run.
             // Students must uncomment this ONLY when Lab 1 is complete.
-            // saveData(); 
+             saveData(); //uncommented now that I know Lab 1 is working 
             cout << "Goodbye! " << endl;
         }
     }
