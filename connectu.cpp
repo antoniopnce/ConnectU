@@ -25,7 +25,7 @@ using namespace std;
 // MODELS & DATA STRUCTURES
 // ==========================================
 
-struct Post {
+struct Post { //test 2
     int postId;
     int userId;
     string content; //task0done
