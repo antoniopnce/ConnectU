@@ -64,7 +64,7 @@ public:
         Post* current = head; //set's the current pointer to the head of the list
         if (!current) { 
             cout << "  (No posts yet)" << endl; return; } //if no current node (is nullptr) then it's empty and outputs that there's no posts
-        
+            
         while (current != nullptr) { //while the current node is not nullptr, current traveses the list all the way to nullptr
             cout << "PostID: " << current->postId << "\n" // current pointer checks what the postID value is and outputs PostID: then the value
                                                           // added newlines and tabs to make it more aesthetically pleasing
