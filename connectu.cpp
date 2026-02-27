@@ -169,12 +169,16 @@ struct HashNode {
 
 class UserMap {
 private:
-    static const int TABLE_SIZE = 10007; 
+    static const int TABLE_SIZE = 10007; //size of the array and uses a prime number to reduce collisions
     HashNode** table;
 
     unsigned long hashFunction(string key) {
-        // TODO: LAB 2
-        return 0; 
+        unsigned long hash = 0; //starts the hash at 0
+        for (int i = 0; i < key.length(); i++) { //starts at the 0 value of the username and goes down the string
+            hash = hash * 31 + key[i]; //multiplies the hash by 31 and adds ASCII valyes
+                                        //also uses 31 because prime numbers make it blend well
+        }
+        return hash % TABLE_SIZE; //returns the result withing the bounds of 0 to 10006
     }
 
 public:
@@ -183,19 +187,43 @@ public:
         for (int i = 0; i < TABLE_SIZE; i++) table[i] = nullptr;
     }
 
-    void put(string key, User* user) { /* TODO: LAB 2 */ }
+    void put(string key, User* user) { 
+        unsigned long index = hashFunction(key); //converts the username into the array index
+        HashNode* current = table[index]; //points to the current node which is the head of the linked list table[index]
 
-    User* get(string key) {
-        // --- TEMPORARY FALLBACK FOR LAB 1 ---
-        for(User* u : allUsers) {
-            if (u->username == key) return u;
+        while (current != nullptr) { //while loop that continues down the nodes until it hits nullptr
+            if (current->key == key) { //checks to see if theres a username
+                current->value = user; //updates the value if there is
+                return;
+            }
+            current = current->next; //moves down the nodes
         }
-        // TODO: LAB 2 - REPLACE ABOVE WITH HASH LOOKUP
+        HashNode* newNode = new HashNode(key, user); //creates new nodes if nothing found
+        newNode->next = table[index]; //then inserts at the beginning of the linked list
+        table[index] = newNode; //this linked list table[index] 
+    }
+
+    User* get(string key) { //finds the user
+        unsigned long index = hashFunction(key); //same funcs as above
+        HashNode* current = table[index]; // ""
+
+        while (current != nullptr) {
+            if (current->key == key) {
+                return current->value; //returns the user pointer
+            }
+            current = current->next; //continues going down the nodes
+        }
+
         return nullptr;
     }
 };
 
-UserMap userMap;
+        // --- TEMPORARY FALLBACK FOR LAB 1 ---
+//        for(User* u : allUsers) { (deleted because its currently O(n))
+//            if (u->username == key) return u; (deleted because its also O(n))
+//        }
+        // TODO: LAB 2 - REPLACE ABOVE WITH HASH LOOKUP
+UserMap userMap; //creates a global hash table
 
 // ==========================================
 // UTILITY FUNCTIONS
