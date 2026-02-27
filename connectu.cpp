@@ -167,6 +167,7 @@ struct HashNode {
     HashNode(string k, User* v) : key(k), value(v), next(nullptr) {}
 };
 
+
 class UserMap {
 private:
     static const int TABLE_SIZE = 10007; //size of the array and uses a prime number to reduce collisions
