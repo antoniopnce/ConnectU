@@ -150,13 +150,57 @@ private:
     Post* heap[1000]; 
     int size;
 
-    void heapifyDown(int index) { /* TODO: LAB 3 */ }
-    void heapifyUp(int index) { /* TODO: LAB 3 */ }
+    void heapifyDown(int index) {
+        while (true) {
+            int left = 2 * index + 1; //finds the left child
+            int right = 2 * index + 2; //finds the right child
+            int largest = index; //checks the children compared to the parent which should be the largest
+
+            if (left < size && heap[left]->getScore() > heap[largest]->getScore())
+                largest = left; //checks to see if the left child exists then it becomes the largest
+            if (right < size && heap[right]->getScore() > heap[largest]->getScore())
+                largest = right; //checks to see if the right child exists then it becomes the largest
+            if (largest != index) {
+                swap(heap[index], heap[largest]); //only goes if the child is larger than the parent and swaps
+                index = largest; //pushes the node down
+            }
+            else {
+                break;
+            }
+        }
+    }
+
+    void heapifyUp(int index) {
+        while (index > 0) { //goes if index is not at root
+            int parent = (index - 1) / 2; //looks for the parent in the heap
+            
+            if (heap[index]->getScore() > heap[parent]->getScore()) { //compares child and parent score
+                swap(heap[index], heap[parent]); //swaps so the higher score goes up
+                index = parent; //continues checking higher up
+            }
+            else {
+                break; //goes until heap is complete
+            }
+            }
+
+        }
 
 public:
     FeedHeap() : size(0) {}
-    void push(Post* p) { /* TODO: LAB 3 */ }
-    Post* popMax() { return nullptr; /* TODO: LAB 3 */ }
+    void push(Post* p) {
+        heap[size] = p; //adds the new post to the end of the heap array
+        heapifyUp(size); //moves the post higher if if has a higher score
+        size++; //Increases the size of the heap
+    }
+    Post* popMax() {
+        if (size == 0)
+            return nullptr; //checks to see if the heap is empty then returns null if it is
+        Post* maxPost = heap[0]; //signs that the root is the largest element in the max heap
+        heap[0] = heap[size - 1]; //moves the last element in the heap to the root
+        size--; //makes the heap size smaller now by removing the last element
+        heapifyDown(0); //the new root goes down 
+        return maxPost; //returns the highest ranked post
+    }
     bool isEmpty() { return size == 0; }
 };
 
