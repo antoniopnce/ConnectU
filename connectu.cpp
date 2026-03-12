@@ -38,6 +38,9 @@ struct Post {
         
     // TODO: LAB 3 - Implement Scoring Logic
     double getScore() {
+        long now = time(0); //stores the current time in seconds
+        double hoursOld = (now - timestamp) / 3600.0; //converts to hours
+        return (likes * 10) + (1000 / (hoursOld + 1)); //implements formula given (This shows if a post is viral or not)
         return 0.0; 
     }
 };
