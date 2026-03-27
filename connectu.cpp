@@ -137,11 +137,27 @@ public:
 
 // BST Implementation
 BSTNode* FriendBST::insert(BSTNode* node, User* u) {
-    // TODO: LAB 4
-    return node;
+    if (node == nullptr) { //checks to see if the node is empty
+        return new BSTNode(u); // creates a new node BSTNode which holds the user variable
+    }
+
+    if (u->username < node->user->username) { //Compares new username with existing ones and this goes if it's alphabetically before
+        node->left = insert(node->left, u); //inserts on the left side of the tree and becomes the new left child
+    }
+
+    else if (u->username > node->user->username) { //Compares new username with existing ones and this goes if it's alphabetically after
+        node->right = insert(node->right, u); //inserts on the right side of the tree and becomes the right child
+    }
+
+    return node; //connects the new node to the trees
 }
 void FriendBST::printInOrder(BSTNode* node) {
-    // TODO: LAB 4
+    if (node == nullptr) //checks to see if the node is empty
+    return; //returns to prevent errors
+
+    printInOrder(node->left); //Node goes to the left which is the alphabetically lower usernames
+    cout << node->user->username << endl; //Displays the current/root node which is the current name
+    printInOrder(node->right); //Node goes to the right which is the alphabetically higher usernames
 }
 
 // TODO: LAB 3 - Max Heap
