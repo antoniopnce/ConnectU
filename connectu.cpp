@@ -354,7 +354,38 @@ void addFriendship(User* requester, User* target) {
 
 // TODO: LAB 5 - Breadth First Search
 void recommendFriends(User* startUser) {
-    cout << "\n[GRAPH ANALYSIS] Finding friends of friends..." << endl;
+    queue<User*> u; //needed by lab tutorial //is the BFS queue
+    set<int> visited; //needed by lab tutorial //keeps track of who I've seen
+    set<int> friended; //stores added friends so they don't get recommended
+    visited.insert(startUser->userId); //sets the startUser to our userId so we don't recommened ourselves
+
+    for (User* friendUser : startUser->friends) { //for loop to queue all friends
+        u.push(friendUser); //pushes friends into the queue
+        friended.insert(friendUser->userId); //records added friends 
+        visited.insert(friendUser->userId); //stops checks on who I've seen
+    }
+
+    cout << "\n[GRAPH ANALYSIS] Finding friends of friends..." << endl; //starts showing the friend reccomendations after the print
+
+    while (!u.empty()) { //is the BFS loop which goes while queue is not empty
+        User* current = u.front(); // takes the first friend
+        u.pop(); //removes them after
+
+        for (User* potential : current->friends) { //looks at friends of friends for potential friends to reccomend
+            if (potential->userId == startUser->userId) { //checks to see if the potential Id is your own
+                continue; //skips
+            }
+            if (friended.count(potential->userId)) { //checks to see if this is an added friend
+                continue; //skips
+            }
+            if (visited.count(potential->userId)) { //checks to see if this is someone I've already seen
+                continue; //skips
+            }
+            cout << "\n[ANALYSIS COMPLETE] Friends of friends found" <<endl; //nice flavor text that matches existing text
+            cout << potential->username << endl; //prints out friends of friends
+            visited.insert(potential->userId); // for loop gets finished and no more prints
+        }
+    }
     // TODO: LAB 5
 }
 
